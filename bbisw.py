@@ -7,7 +7,6 @@ import pygame.camera
 import pygame.image
 
 pygame.camera.init()
-pygame.camera.list_cameras()
 
 for _ in range(10):
     try:
@@ -15,7 +14,6 @@ for _ in range(10):
             pygame.camera.list_cameras()[0], (1280, 720))
     except IndexError:
         print("Can't access camera, trying again...")
-        # pygame.camera.quit()
         time.sleep(10)
     else:
         cam.start()
