@@ -3,6 +3,7 @@
 import os
 import sys
 import time
+from datetime import datetime
 
 import pygame.camera
 import pygame.image
@@ -24,16 +25,8 @@ else:
 
 for i in range(11):
     img = cam.get_image()
-    n = str(i)
 
-    if len(n) == 1:
-        n = "000" + n
-    elif len(n) == 2:
-        n = "00" + n
-    elif len(n) == 3:
-        n = "0" + n
-
-    st = n + ".bmp"
+    st = datetime.now().strftime("%Y%m%d_%H%M%S") + ".bmp"
     pygame.image.save(img, st)
     status = os.system("mogrify -format jpg " + st)
     os.remove(st)
