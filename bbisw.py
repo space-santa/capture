@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 
+import os
 import sys
 import time
 
@@ -34,6 +35,13 @@ for i in range(11):
 
     st = n + ".bmp"
     pygame.image.save(img, st)
+    status = os.system("mogrify -format jpg " + st)
+    os.remove(st)
+
+    if status != 0:
+        pygame.camera.quit()
+        sys.exit("Couldn't run mogrify, is ImageMagick installed?")
+
     time.sleep(10)
 
 pygame.camera.quit()
