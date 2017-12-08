@@ -4,6 +4,9 @@ import os
 import sys
 import time
 from datetime import datetime
+from PIL import Image
+from PIL import ImageFont
+from PIL import ImageDraw
 
 import pygame.camera
 import pygame.image
@@ -25,15 +28,18 @@ else:
 
 for i in range(11):
     img = cam.get_image()
+    file_name = datetime.now().strftime("%Y%m%d_%H%M%S")
 
-    st = datetime.now().strftime("%Y%m%d_%H%M%S") + ".bmp"
+    st = file_name + ".bmp"
     pygame.image.save(img, st)
-    status = os.system("mogrify -format jpg " + st)
+    new_image = Image.open(st)
+    draw = ImageDraw.Draw(new_image)
+    font = ImageFont.truetype("DejaVuSans.ttf", 16)
+    w, h = draw.textsize(file_name, font)
+    draw.rectangle([0, 0, w, h], fill=(255, 255, 255))
+    draw.text((0, 0), file_name, (0, 0, 0), font=font)
+    new_image.save(file_name + ".jpg", "JPEG")
     os.remove(st)
-
-    if status != 0:
-        pygame.camera.quit()
-        sys.exit("Couldn't run mogrify, is ImageMagick installed?")
 
     time.sleep(10)
 
